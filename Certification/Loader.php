@@ -31,6 +31,7 @@ class Loader
      *
      * @param integer $number
      * @param array   $categories
+     * @param String  $path
      *
      * @return Set
      */
@@ -72,11 +73,15 @@ class Loader
     /**
      * Counts total of available questions
      *
+     * @param integer $number
+     * @param array   $categories
+     * @param String  $path
+     *
      * @return integer
      */
-    static public function count()
+    static public function count(array $categories, $path)
     {
-        return self::$count ?: count(self::prepareFromYaml());
+        return self::$count ?: count(self::prepareFromYaml($categories, $path));
     }
 
     /**
@@ -90,10 +95,10 @@ class Loader
     {
         $data = array();
         self::$count = 0;
-        $paths = Yaml::parse(file_get_contents($path))['paths'];
+        $decks = Yaml::parse(file_get_contents($path))['decks'];
 
-        foreach($paths as $path) {
-            $files = Finder::create()->files()->in($path)->name('*.yml');
+        foreach($decks as $deck) {
+            $files = Finder::create()->files()->in($deck['path'])->name('*.yml');
 
             foreach ($files as $file) {
                 $fileData = Yaml::parse($file->getContents());
