@@ -1,2 +1,2 @@
-paths:
-    - vendor/certificationy/symfony-pack
+decks:
+    - { name: Symfony2, path: vendor/certificationy/symfony-pack }
